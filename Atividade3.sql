@@ -87,3 +87,64 @@ INSERT INTO formacao VALUES(095,00541);
 INSERT INTO formacao VALUES(105,00187);
 INSERT INTO formacao VALUES(124,00214);
 
+use EscolaEsporte
+
+-- a)	Selecione o nome , a matrícula e o endereço do sócio para o sócio que tenha a letra A na segunda posição do primeiro nome e qualquer caracteres após.
+SELECT nomesoc, MATRSOC , ENDSOC from escolaesporte.socio WHERE nomesoc Like '_A%';
+
+-- b)Selecione o nome da modalidade esportiva e o seu código em ordem alfabética do nome da modalidade esportiva.
+
+SELECT nomemodal, CODMODAL FROM modalidade ORDER BY nomemodal;
+
+-- c)	Selecione o nome do sócio e o valor da sua mensalidade em ordem decrescente do valor da mensalidade.
+
+SELECT nomesoc, VLMENSSOC FROM socio order by VLMENSSOC desc;
+
+-- d)	Selecione o nome do sócio e o valor da sua mensalidade, para mensalidades com valores entre R$140,00 e R$175,00, em ordem ascendente do nome do sócio.
+SELECT nomesoc, VLMENSSOC FROM socio WHERE VLMENSSOC BETWEEN 140 AND 175 ORDER BY nomesoc desc;
+
+-- e)	Selecione o nome do professor e o seu código para o professor formado pela UFMG.
+
+SELECT nomeprof, codprof, faculprof FROM professor WHERE  ACULPROF = 'UFMG';
+
+-- f)	Selecione o nome do professor e o nome da sua faculdade para faculdade que não sejam UFMG.
+SELECT nomeprof, codprof,FACULPROF FROM professor WHERE FACULPROF != 'UFMG';
+
+-- g)	Selecione o nome do sócio e o seu endereço para o sócio nascido fora do estado de Minas Gerais.
+
+SELECT nomesoc, ENDSOC FROM socio WHERE LCLNASCSOC != 'MG';
+
+-- h) Selecione o código e o nome da modalidade esportiva que inicie com a letra F em ordem crescente de código.
+
+SELECT CODMODAL, NOMEMODAL FROM modalidade WHERE nomemodal like 'F%' ORDER BY CODMODAL;
+
+-- i)	Selecione o nome do professor e o nome da modalidade esportiva que o mesmo pode ministrar aulas.
+
+SELECT NOMEPROF AS 'Nome Do Professor', NOMEMODAL AS 'Nome Da Modalidade' FROM professor p, modalidade m INNER JOIN formacao f WHERE p.CODPROF = f.CODPROF AND m.CODMODAL = f.CODMODAL;
+
+-- j)	Selecione o número da turma, o nome do professor e o nome da modalidade esportiva na qual esta turma esta cursando.
+USE escolaesporte;
+
+SELECT t.numtur, p.nomeprof, m.nomemodal 
+FROM turma t 
+INNER JOIN professor p 
+INNER JOIN modalidade m
+INNER JOIN formacao f
+ON p.codprof = t.codprof 
+AND t.codprof = f.codprof
+AND f.CODMODAL = m.CODMODAL;
+
+-- k)	Selecione o código do curso, duração diária do curso e o nome da modalidade esportiva deste curso para a modalidade esportiva que tenha a letra T na terceira posição do nome e quaisquer outros caracteres após.
+
+SELECT CODCURSO AS 'Codigo do curso', DURDIARCURSO AS 'Duração do curso', NOMEMODAL AS 'Nome modalidade'  FROM curso c NATURAL JOIN modalidade m WHERE NOMEMODAL LIKE '__t%';
+
+-- l)	Selecione o código do curso, o número da turma e o nome do sócio que está freqüentando 
+-- esta turma em ordem alfabética do nome do sócio, alterando as colunas do resultado para : 
+-- Curso, Turma e Sócio respectivamente.
+
+USE escolaesporte;
+SELECT c.CODCURSO, t.numtur, s.nomesoc 
+FROM curso c 
+INNER JOIN turma t
+INNER JOIN socio s
+ON c.CODCURSO = t.CODCURSO AND t.MATRSOC = s.MATRSOC

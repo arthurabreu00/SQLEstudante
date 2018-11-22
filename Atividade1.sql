@@ -36,7 +36,7 @@ SELECT placa_vei AS'Placa',modelo_vei AS 'Modelo' FROM veiculo WHERE ano_vei != 
 
 
 -- 10.	Somatório dos valores de IPVA agrupados por ano de fabricação do veículo, em ordem decrescente do valor do IPVA acumulado.
-
+d)	Selecione o nome do sócio e o valor da sua mensalidade, para mensalidades com valores entre R$140,00 e R$175,00, em ordem ascendente do nome do sócio.
 SELECT ano_vei AS 'Ano de fabricação', SUM(vlrIpva_vei) AS 'Soma do Ipva' FROM veiculo GROUP BY(ano_vei) ORDER BY vlrIpva_vei DESC;
 
 -- 11.	Valor do IPVA médio por modelo.
