@@ -87,7 +87,7 @@ INSERT INTO formacao VALUES(095,00541);
 INSERT INTO formacao VALUES(105,00187);
 INSERT INTO formacao VALUES(124,00214);
 
-use EscolaEsporte
+use EscolaEsporte;
 
 -- a)	Selecione o nome , a matrícula e o endereço do sócio para o sócio que tenha a letra A na segunda posição do primeiro nome e qualquer caracteres após.
 SELECT nomesoc, MATRSOC , ENDSOC from escolaesporte.socio WHERE nomesoc Like '_A%';
@@ -123,6 +123,7 @@ SELECT CODMODAL, NOMEMODAL FROM modalidade WHERE nomemodal like 'F%' ORDER BY CO
 SELECT NOMEPROF AS 'Nome Do Professor', NOMEMODAL AS 'Nome Da Modalidade' FROM professor p, modalidade m INNER JOIN formacao f WHERE p.CODPROF = f.CODPROF AND m.CODMODAL = f.CODMODAL;
 
 -- j)	Selecione o número da turma, o nome do professor e o nome da modalidade esportiva na qual esta turma esta cursando.
+
 USE escolaesporte;
 
 SELECT t.numtur, p.nomeprof, m.nomemodal 
