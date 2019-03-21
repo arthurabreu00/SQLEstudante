@@ -1,4 +1,4 @@
-
+drop database ativdade1;
 
 CREATE DATABASE atividade1;
 USE atividade1;
@@ -9,8 +9,10 @@ USE atividade1;
 	data_nasc_aluno DATE
 );
 
+
 CREATE TABLE tb_curso(
-	cod_curso INT(10), PRIMARY KEY (cod_curso),
+	cod_curso int(10) AUTO_INCREMENT, PRIMARY KEY (cod_curso),
+    cod_prof VARCHAR(10),
     prof_curso VARCHAR(50),
     ano_curso YEAR,
     semestre_curso INT,
@@ -18,13 +20,15 @@ CREATE TABLE tb_curso(
     ra_aluno INT(10), FOREIGN KEY (ra_aluno) REFERENCES tb_aluno(ra_aluno)
 );
 
+drop table tb_disciplina;
+
 CREATE TABLE tb_disciplina(
 	cod_disc INT(10), PRIMARY KEY(cod_disc),
 	nm_disc VARCHAR(50),
     corte_a_disc FLOAT, 
     corte_b_disc FLOAT,
 	corte_c_disc FLOAT,
-    cod_curso INT(10), FOREIGN KEY (cod_curso) REFERENCES tb_curso(cod_curso)
+    cod_curso VARCHAR(10), FOREIGN KEY (cod_curso) REFERENCES tb_curso(cod_curso)
 );
 
 INSERT INTO tb_aluno VALUES(49234,"João",2018,'1982-09-03');
@@ -38,3 +42,8 @@ INSERT INTO tb_aluno VALUES(49241,"",2004,'1986-01-02');
 INSERT INTO tb_aluno VALUES(49242,"",2003,'1984-08-03');
 INSERT INTO tb_aluno VALUES(49243,"",2005,'1981-06-20');
 
+INSERT INTO tb_curso VALUES('M0405','João Batista',2005,2,8.3,49234);
+INSERT INTO tb_curso VALUES('M0405', 49234,'João Batista',2005,2,8.3);
+INSERT INTO tb_curso VALUES('M0405', 49234,'João Batista',2005,2,8.3);
+
+INSERT INTO tb_curso (cod_) VALUES("",
