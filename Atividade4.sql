@@ -27,19 +27,54 @@ CREATE TABLE tb_curso(
 );
 
 INSERT INTO tb_aluno VALUES(49234,"João",2018,'1982-09-03');
-INSERT INTO tb_aluno VALUES(49235,"",2004,'1983-05-19');
-INSERT INTO tb_aluno VALUES(49236,"",2004,'1985-11-11');
-INSERT INTO tb_aluno VALUES(49237,"",2006,'1982-09-03');
-INSERT INTO tb_aluno VALUES(49238,"",2010,'1984-07-16');
-INSERT INTO tb_aluno VALUES(49239,"",2019,'1988-10-20');
-INSERT INTO tb_aluno VALUES(49240,"",2009,'2000-03-20');
-INSERT INTO tb_aluno VALUES(49241,"",2004,'1986-01-02');
-INSERT INTO tb_aluno VALUES(49242,"",2003,'1984-08-03');
-INSERT INTO tb_aluno VALUES(49243,"",2005,'1981-06-20');
+INSERT INTO tb_aluno VALUES(49235,"José",2004,'1983-05-19');
+INSERT INTO tb_aluno VALUES(49236,"Roberto",2004,'1985-11-11');
+INSERT INTO tb_aluno VALUES(49237,"Carmelo",2006,'1982-09-03');
+INSERT INTO tb_aluno VALUES(49238,"JoseP",2010,'1984-07-16');
+INSERT INTO tb_aluno VALUES(49239,"Karol",2019,'1988-10-20');
+INSERT INTO tb_aluno VALUES(49240,"Manoel",2009,'2000-03-20');
+INSERT INTO tb_aluno VALUES(49241,"Zezinho",2004,'1986-01-02');
+INSERT INTO tb_aluno VALUES(49242,"Leila",2003,'1984-08-03');
+INSERT INTO tb_aluno VALUES(49243,"Ana",2005,'1981-06-20');
+
+UPDATE nome_aluno
+SET CAMPO = "José"
+WHERE ra_aluno = 49235;
+
+UPDATE nome_aluno
+SET CAMPO = "Roberto"
+WHERE ra_aluno = 49236;
+
+UPDATE nome_aluno
+SET CAMPO = "Carmelo"
+WHERE ra_aluno = 49238;
+
+UPDATE nome_aluno
+SET CAMPO = "JoseP"
+WHERE ra_aluno = 49239;
+
+UPDATE nome_aluno
+SET CAMPO = "Karol"
+WHERE ra_aluno = 49240;
+
+UPDATE nome_aluno
+SET CAMPO = "Manoel"
+WHERE ra_aluno = 49241;
+
+UPDATE nome_aluno
+SET CAMPO = "Zezinho"
+WHERE ra_aluno = 49242;
+
+UPDATE nome_aluno
+SET CAMPO = "Leila"
+WHERE ra_aluno = 49242;
+
+UPDATE nome_aluno
+SET CAMPO = "Ana"
+WHERE ra_aluno = 49242;
 
 
 
-DESC tb_disciplina;
 
 
 INSERT INTO tb_disciplina(
@@ -102,6 +137,10 @@ LEFT JOIN tb_curso C
 ON D.cod_disc = C.cod_disc
 WHERE C.cod_disc IS NULL;
 
-SELECT avg(C.nota) as 'Media dos alunos', D.nm_disciplina, C.ano from 
-curso C, disciplinas D group by C.ano having ano=2005 and avg(C.nota>7.00);
+-- Query do Professor.
+SELECT d.nm_disc FRom tb_disciplina D inner join tb_curso c on d.cod_disc = c.cod_disc INNER JOIN tb_aluno a ON c.ra_aluno = a.ra_aluno;
 
+SELECT avg(C.nota) as 'Media dos alunos', D.nm_disc, C.ano_curso from 
+curso C, tb_disciplina D group by C.ano having ano=2005 and avg(C.nota>7.00);
+
+SELECT nome_aluno FROM tb_aluno;
