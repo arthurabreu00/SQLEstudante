@@ -47,23 +47,23 @@ WHERE ra_aluno = 49236;
 
 UPDATE nome_aluno
 SET CAMPO = "Carmelo"
-WHERE ra_aluno = 49238;
+WHERE ra_aluno = 49237;
 
 UPDATE nome_aluno
 SET CAMPO = "JoseP"
-WHERE ra_aluno = 49239;
+WHERE ra_aluno = 49238;
 
 UPDATE nome_aluno
 SET CAMPO = "Karol"
-WHERE ra_aluno = 49240;
+WHERE ra_aluno = 49239;
 
 UPDATE nome_aluno
 SET CAMPO = "Manoel"
-WHERE ra_aluno = 49241;
+WHERE ra_aluno = 49240;
 
 UPDATE nome_aluno
 SET CAMPO = "Zezinho"
-WHERE ra_aluno = 49242;
+WHERE ra_aluno = 49241;
 
 UPDATE nome_aluno
 SET CAMPO = "Leila"
@@ -71,7 +71,7 @@ WHERE ra_aluno = 49242;
 
 UPDATE nome_aluno
 SET CAMPO = "Ana"
-WHERE ra_aluno = 49242;
+WHERE ra_aluno = 49243;
 
 
 
@@ -137,10 +137,25 @@ LEFT JOIN tb_curso C
 ON D.cod_disc = C.cod_disc
 WHERE C.cod_disc IS NULL;
 
+
 -- Query do Professor.
 SELECT d.nm_disc FRom tb_disciplina D inner join tb_curso c on d.cod_disc = c.cod_disc INNER JOIN tb_aluno a ON c.ra_aluno = a.ra_aluno;
 
 SELECT avg(C.nota) as 'Media dos alunos', D.nm_disc, C.ano_curso from 
 curso C, tb_disciplina D group by C.ano having ano=2005 and avg(C.nota>7.00);
 
-SELECT nome_aluno FROM tb_aluno;
+SELECT A.nome_aluno, MAX(C.nota_curso) AS 'Nota Máxima', MIN(c.nota_curso) AS 'Nota Minima' FROM tb_aluno A INNER JOIN tb_curso C ON C.ra_aluno = A.ra_aluno;
+
+
+CREATE TABLE tb_tipo_curso(
+	id_tp_curso INT AUTO_INCREMENT, PRIMARY KEY(id_tp_curso),
+    desc_tp_curso VARCHAR(100),
+    ativo_tp_curso BOOLEAN
+);
+
+
+INSERT INTO tb_tipo_curso (desc_tp_curso, ativo_tp_curso) VALUES('Informatica', FALSE);
+INSERT INTO tb_tipo_curso (desc_tp_curso, ativo_tp_curso) VALUES('Administração',FALSE);
+INSERT INTO tb_tipo_curso (desc_tp_curso, ativo_tp_curso) VALUES('Eletrônica',FALSE);
+INSERT INTO tb_tipo_curso (desc_tp_curso, ativo_tp_curso) VALUES('Recursos Humanos',FALSE);
+INSERT INTO tb_tipo_curso (desc_tp_curso, ativo_tp_curso) VALUES('Enfermagem',FALSE);
