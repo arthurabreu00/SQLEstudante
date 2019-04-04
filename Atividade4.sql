@@ -98,7 +98,7 @@ LEFT JOIN tb_curso C
 ON D.cod_disc = C.cod_disc
 WHERE C.cod_disc IS NULL;
 
- -- 
+
 select D.nm_disc as 'Nome das disciplinas', count(D.nm_disc) as 'Contagem'
 From tb_disciplina D, tb_curso C where C.cod_disc = D.cod_disc group by D.nm_disc;
 
@@ -117,12 +117,25 @@ CREATE TABLE tb_tipo_curso(
 );
 
 
+USE atividade1;
+
 INSERT INTO tb_tipo_curso (desc_tp_curso, ativo_tp_curso) VALUES('Informatica', FALSE);
 INSERT INTO tb_tipo_curso (desc_tp_curso, ativo_tp_curso) VALUES('Administração',FALSE);
 INSERT INTO tb_tipo_curso (desc_tp_curso, ativo_tp_curso) VALUES('Eletrônica',FALSE);
 INSERT INTO tb_tipo_curso (desc_tp_curso, ativo_tp_curso) VALUES('Recursos Humanos',FALSE);
 INSERT INTO tb_tipo_curso (desc_tp_curso, ativo_tp_curso) VALUES('Enfermagem',FALSE);
 
-ALTER TABLE tb_disciplina ADD id_tp_curso INT;
+SELECT * FROM tb_tipo_curso;
 
-ALTER TABLE tb_disciplina ADD  FOREIGN KEY (id_tp_curso) REFERENCES Persons(id_tp_curso);
+CREATE TABLE tp_curso_disciplina(
+	id_tp_curso_disciplina INT AUTO_INCREMENT, PRIMARY KEY(id_tp_curso_disciplina),
+	id_tp_curso INT(10), FOREIGN KEY(id_tp_curso) REFERENCES tb_tipo_curso(id_tp_curso),
+    cod_disc VARCHAR(10), FOREIGN KEY(cod_disc) REFERENCES tb_disciplina(cod_disc)
+);
+
+
+ALTER TABLE tb_disciplina ADD  id_tp_curso_disciplina INT ;
+ALTER TABLE tb_disciplina ADD CONSTRAINT  FOREIGN KEY (id_tp_curso_disciplina) REFERENCES tp_curso_disciplina(id_tp_curso_disciplina);
+
+ALTER TABLE tb_curso ADD  id_tp_curso_disciplina INT;
+ALTER TABLE tb_curso ADD CONSTRAINT  FOREIGN KEY (id_tp_curso_disciplina) REFERENCES tp_curso_disciplina(id_tp_curso_disciplina);
