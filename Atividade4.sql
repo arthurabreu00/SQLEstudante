@@ -125,7 +125,7 @@ INSERT INTO tb_tipo_curso (desc_tp_curso, ativo_tp_curso) VALUES('Eletrônica',F
 INSERT INTO tb_tipo_curso (desc_tp_curso, ativo_tp_curso) VALUES('Recursos Humanos',FALSE);
 INSERT INTO tb_tipo_curso (desc_tp_curso, ativo_tp_curso) VALUES('Enfermagem',FALSE);
 
-SELECT * FROM tb_tipo_curso;
+
 
 CREATE TABLE tp_curso_disciplina(
 	id_tp_curso_disciplina INT AUTO_INCREMENT, PRIMARY KEY(id_tp_curso_disciplina),
@@ -134,7 +134,7 @@ CREATE TABLE tp_curso_disciplina(
 );
 
 
-ALTER TABLE tb_disciplina ADD  id_tp_curso_disciplina INT ;
+ALTER TABLE tb_disciplina ADD  id_tp_curso_disciplina INT;
 ALTER TABLE tb_disciplina ADD CONSTRAINT  FOREIGN KEY (id_tp_curso_disciplina) REFERENCES tp_curso_disciplina(id_tp_curso_disciplina);
 
 ALTER TABLE tb_curso ADD  id_tp_curso_disciplina INT;
