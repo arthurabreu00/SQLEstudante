@@ -32,11 +32,10 @@ CREATE TABLE cursos(
     nota float
 );
 
-
 CREATE TABLE tpCurso_Disciplina(
 	idTpCurso_discplina INT AUTO_INCREMENT PRIMARY KEY,
 	codigo_disciplina VARCHAR(20), FOREIGN KEY(codigo_disciplina) REFERENCES disciplina(codigo_disciplina),
-    id_tp_curso INT,
+    id_tp_curso INT, FOREIGN KEY(id_tp_curso) REFERENCES tipo_cursos(id_tp_curso),
     dt_inclusao DATETIME
 );
 
@@ -75,7 +74,6 @@ INSERT INTO tipo_cursos(descricao,ativo) VALUES('Recursos Humanos',1);
 INSERT INTO tipo_cursos(descricao,ativo) VALUES('Enfermagem',1);
 INSERT INTO tipo_cursos(descricao,ativo) VALUES('Eletrônica',1);
 
-TRUNCATE TABLE tpcurso_disciplina;
 
 INSERT INTO tpcurso_disciplina(codigo_disciplina,id_tp_curso,dt_inclusao) VALUES('M0405',1,"2005-01-01 00:00");
 INSERT INTO tpcurso_disciplina(codigo_disciplina,id_tp_curso,dt_inclusao) VALUES('M0406',1,"2005-01-01 00:00");
@@ -87,36 +85,62 @@ INSERT INTO tpcurso_disciplina(codigo_disciplina,id_tp_curso,dt_inclusao) VALUES
 
 -- Selecione o nome dos tipos de curso que não possuem disciplinas cadastradas.
 
-
+SELECT C.descricao FROM tipo_cursos C LEFT JOIN tpcurso_disciplina A ON C.id_tp_curso = A.id_tp_curso WHERE A.id_tp_curso IS NULL;
 
 -- Selecionar os alunos que estão inscritos no curso de informatica.
 
-
+SELECT A.*
+FROM alunos A
+NATURAL JOIN cursos B
+NATURAL JOIN disciplina C 
+NATURAL JOIN tpcurso_disciplina D
+NATURAL JOIN tipo_cursos E
+WHERE descricao = 'Eletrônica'
+GROUP BY A.ra
+;
 
 -- Selecionar a descrição dos tipos de curso e a quantidade de disciplinas vinculadas.
 
-
+SELECT A.descricao, COUNT(B.codigo_disciplina ) as 'Quantida de disciplinas' FROM tipo_cursos A NATURAL JOIN tpcurso_disciplina B GROUP BY A.id_tp_curso;
 
 -- Selecionar os alunos que estão inscritos no curso de informática e eletronica.
 
+SELECT E.descricao,A.* FROM alunos A
+NATURAL JOIN cursos B
+NATURAL JOIN disciplina C 
+NATURAL JOIN tpcurso_disciplina D
+NATURAL JOIN tipo_cursos E
+WHERE E.descricao = 'Informática' AND E.descricao = 'Eletrônica'
+GROUP BY A.ra
+;
+
 -- Selecionar o nome da disciplina e o nome do tipo de curso a qual os mesmos estão inseridos.
-
--- Selecionar a quantidade de alunos matriculados por tipo de curso.
-
-SELECT T.descricao,COUNT(C.ra)
-FROM curso C
-INNER JOIN disciplina D 
-INNER JOIN tpcurso_disciplina TP 
-INNER JOIN tipo_cursos T
-WHERE TP.codigo_disciplina = D.codigo_disciplina AND TP.id_tp_curso = T.id_tp_curso;
-
--- Selectionar o nome da disciplina e o nome do tipo de curso a qual os mesmos estão inseridos.
 
 SELECT D.nome_disciplina,T.descricao 
 FROM disciplina D 
 INNER JOIN tpcurso_disciplina TP 
 INNER JOIN tipo_cursos T
 WHERE TP.codigo_disciplina = D.codigo_disciplina AND TP.id_tp_curso = T.id_tp_curso;
+
+-- Selecionar a quantidade de alunos matriculados por tipo de curso.
+
+SELECT 
+    T.descricao, COUNT(C.ra) AS 'Número de alunos'
+FROM
+    cursos C
+        INNER JOIN
+    disciplina D
+        INNER JOIN
+    tpcurso_disciplina TP
+        INNER JOIN
+    tipo_cursos T ON D.codigo_disciplina = C.codigo_disciplina
+        AND TP.codigo_disciplina = D.codigo_disciplina
+        AND TP.id_tp_curso = T.id_tp_curso
+GROUP BY TP.id_tp_curso;
+
+-- 
+
+
 
 
 
