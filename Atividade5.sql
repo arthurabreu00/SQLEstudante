@@ -20,8 +20,10 @@ CREATE TABLE alunos(
 	ra VARCHAR(20) PRIMARY KEY,
     nome_aluno VARCHAR(150),
     ano_admissao INT(11),
-    data_nasc VARCHAR(20)
+    data_nasc DATE
 );
+
+
 
 CREATE TABLE cursos(
 	codigo INT(11) PRIMARY KEY,
@@ -110,7 +112,7 @@ NATURAL JOIN cursos B
 NATURAL JOIN disciplina C 
 NATURAL JOIN tpcurso_disciplina D
 NATURAL JOIN tipo_cursos E
-WHERE E.descricao = 'Informática' AND E.descricao = 'Eletrônica'
+WHERE E.descricao = 'Informática' || E.descricao = 'Eletrônica'
 GROUP BY A.ra
 ;
 
@@ -138,8 +140,50 @@ FROM
         AND TP.id_tp_curso = T.id_tp_curso
 GROUP BY TP.id_tp_curso;
 
--- 
+-- Selecionar o nome da disciplina e média das notas dos alunos obtidas
 
+SELECT A.nome_disciplina , AVG(B.nota) AS 'Media das notas'
+FROM disciplina A 
+INNER JOIN cursos B
+ON B.codigo_disciplina = A.codigo_disciplina
+GROUP BY A.nome_disciplina;
+
+-- Selecionar o nome da disciplina e média das notas dos alunos obtidas que tenham valor acima de 70%;
+
+SELECT A.nome_disciplina , AVG(B.nota) AS 'Media das notas'
+FROM disciplina A 
+INNER JOIN cursos B
+ON B.codigo_disciplina = A.codigo_disciplina
+GROUP BY A.nome_disciplina HAVING AVG(B.nota) >= 70;
+
+-- Selecionar o nome e quantidade de disciplinas cadastradas por tipo de curso.
+
+SELECT A.nome_disciplina, COUNT(B.id_tp_curso) as 'Quantidade de disciplinas'
+FROM disciplina A
+INNER JOIN tpcurso_disciplina B
+ON A.codigo_disciplina = B.codigo_disciplina GROUP BY B.id_tp_curso;
+
+-- Selecionar os nomes os nomes e ra's que nasceram a partir do ano 2000.
+
+SELECT nome_aluno, ra FROM alunos WHERE data_nasc > '2000-01-01';
+
+-- Selecionar os nomes dos alunos com maior e menor média e apresente as respectivas médias.
+
+SELECT A.nome_aluno As 'Nome do aluno', MAX(B.nota) as 'Maior média', MIN(B.nota) as 'Menor média'
+FROM alunos A
+INNER JOIN cursos B
+ON A.ra = B.ra 
+GROUP BY B.ra;
+
+-- Selecionar o nome, em ordem crescente, dos alunos que cursaram mais de uma disciplina no ano de 2005.
+SELECT A.nome_aluno , B.ano
+FROM alunos A
+INNER JOIN cursos B
+ON A.ra = B.ra
+GROUP BY A.ra
+HAVING B.ano = 2005 AND COUNT(B.ra) > 2
+
+ORDER BY A.nome_aluno;
 
 
 
