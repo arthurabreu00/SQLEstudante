@@ -140,6 +140,7 @@ FROM
         AND TP.id_tp_curso = T.id_tp_curso
 GROUP BY TP.id_tp_curso;
 
+
 -- Selecionar o nome da disciplina e média das notas dos alunos obtidas
 
 SELECT A.nome_disciplina , AVG(B.nota) AS 'Media das notas'
@@ -182,8 +183,25 @@ INNER JOIN cursos B
 ON A.ra = B.ra
 GROUP BY A.ra
 HAVING B.ano = 2005 AND COUNT(B.ra) > 2
-
 ORDER BY A.nome_aluno;
+
+-- Selecionar os tipos de cursos que não possuem disciplinas vinculadas.
+
+SELECT DISTINCT a.descricao
+FROM tipo_cursos A
+LEFT JOIN tpcurso_disciplina B
+ON  A.id_tp_curso = b.id_tp_curso
+WHERE b.id_tp_curso IS NULL;
+
+
+-- Selecionar todas as informações sobre as disciplinas  que não possuem alunos matriculados.
+
+SELECT A.*
+FROM disciplina A
+LEFT JOIN cursos B
+ON A.codigo_disciplina = B.codigo_disciplina
+WHERE B.ra IS NULL;
+
 
 
 
