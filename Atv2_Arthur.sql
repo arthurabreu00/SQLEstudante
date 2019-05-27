@@ -86,11 +86,11 @@ INSERT INTO tpcurso_disciplina(codigo_disciplina,id_tp_curso) VALUES('M0409',2);
 INSERT INTO tpcurso_disciplina(codigo_disciplina,id_tp_curso,dt_inclusao) VALUES('M0410',2,"2005-01-01 00:00");
 
 -- Selecione o nome dos tipos de curso que não possuem disciplinas cadastradas.
-
+DELIMITER $$
 SELECT C.descricao FROM tipo_cursos C LEFT JOIN tpcurso_disciplina A ON C.id_tp_curso = A.id_tp_curso WHERE A.id_tp_curso IS NULL;
 
 -- Selecionar os alunos que estão inscritos no curso de informatica.
-
+DELIMITER $$
 SELECT A.*
 FROM alunos A
 NATURAL JOIN cursos B
@@ -101,12 +101,20 @@ WHERE descricao = 'Eletrônica'
 GROUP BY A.ra
 ;
 
+DELIMITER $$
+CREATE PROCEDURE teste1(in raP VARCHAR(20))
+BEGIN
+SELECT * FROM alunos WHERE ra = raP;
+END $$;
+
+DELIMITER $$
+
 -- Selecionar a descrição dos tipos de curso e a quantidade de disciplinas vinculadas.
 
 SELECT A.descricao, COUNT(B.codigo_disciplina ) as 'Quantida de disciplinas' FROM tipo_cursos A NATURAL JOIN tpcurso_disciplina B GROUP BY A.id_tp_curso;
 
 -- Selecionar os alunos que estão inscritos no curso de informática e eletronica.
-
+DELIMITER $$
 SELECT E.descricao,A.* FROM alunos A
 NATURAL JOIN cursos B
 NATURAL JOIN disciplina C 
@@ -115,7 +123,7 @@ NATURAL JOIN tipo_cursos E
 WHERE E.descricao = 'Informática' || E.descricao = 'Eletrônica'
 GROUP BY A.ra
 ;
-
+DELIMITER $$
 -- Selecionar o nome da disciplina e o nome do tipo de curso a qual os mesmos estão inseridos.
 
 SELECT D.nome_disciplina,T.descricao 
@@ -125,7 +133,7 @@ INNER JOIN tipo_cursos T
 WHERE TP.codigo_disciplina = D.codigo_disciplina AND TP.id_tp_curso = T.id_tp_curso;
 
 -- Selecionar a quantidade de alunos matriculados por tipo de curso.
-
+DELIMITER $$
 SELECT 
     T.descricao, COUNT(C.ra) AS 'Número de alunos'
 FROM
@@ -142,7 +150,7 @@ GROUP BY TP.id_tp_curso;
 
 
 -- Selecionar o nome da disciplina e média das notas dos alunos obtidas
-
+DELIMITER $$
 SELECT A.nome_disciplina , AVG(B.nota) AS 'Media das notas'
 FROM disciplina A 
 INNER JOIN cursos B
@@ -150,7 +158,7 @@ ON B.codigo_disciplina = A.codigo_disciplina
 GROUP BY A.nome_disciplina;
 
 -- Selecionar o nome da disciplina e média das notas dos alunos obtidas que tenham valor acima de 70%;
-
+DELIMITER $$
 SELECT A.nome_disciplina , AVG(B.nota) AS 'Media das notas'
 FROM disciplina A 
 INNER JOIN cursos B
@@ -158,18 +166,18 @@ ON B.codigo_disciplina = A.codigo_disciplina
 GROUP BY A.nome_disciplina HAVING AVG(B.nota) >= 70;
 
 -- Selecionar o nome e quantidade de disciplinas cadastradas por tipo de curso.
-
+DELIMITER $$
 SELECT A.nome_disciplina, COUNT(B.id_tp_curso) as 'Quantidade de disciplinas'
 FROM disciplina A
 INNER JOIN tpcurso_disciplina B
 ON A.codigo_disciplina = B.codigo_disciplina GROUP BY B.id_tp_curso;
 
 -- Selecionar os nomes os nomes e ra's que nasceram a partir do ano 2000.
-
+DELIMITER $$
 SELECT nome_aluno, ra FROM alunos WHERE data_nasc > '2000-01-01';
 
 -- Selecionar os nomes dos alunos com maior e menor média e apresente as respectivas médias.
-
+DELIMITER $$
 SELECT A.nome_aluno As 'Nome do aluno', MAX(B.nota) as 'Maior média', MIN(B.nota) as 'Menor média'
 FROM alunos A
 INNER JOIN cursos B
@@ -177,6 +185,7 @@ ON A.ra = B.ra
 GROUP BY B.ra;
 
 -- Selecionar o nome, em ordem crescente, dos alunos que cursaram mais de uma disciplina no ano de 2005.
+DELIMITER $$
 SELECT A.nome_aluno , B.ano
 FROM alunos A
 INNER JOIN cursos B
@@ -186,7 +195,7 @@ HAVING B.ano = 2005 AND COUNT(B.ra) > 2
 ORDER BY A.nome_aluno;
 
 -- Selecionar os tipos de cursos que não possuem disciplinas vinculadas.
-
+DELIMITER $$
 SELECT DISTINCT a.descricao
 FROM tipo_cursos A
 LEFT JOIN tpcurso_disciplina B
@@ -195,7 +204,7 @@ WHERE b.id_tp_curso IS NULL;
 
 
 -- Selecionar todas as informações sobre as disciplinas  que não possuem alunos matriculados.
-
+DELIMITER $$
 SELECT A.*
 FROM disciplina A
 LEFT JOIN cursos B
