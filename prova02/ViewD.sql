@@ -1,0 +1,2 @@
+CREATE VIEW ViewD AS SELECT * FROM contato;
+
