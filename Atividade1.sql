@@ -8,6 +8,9 @@ SELECT nome_prop,estado_prop FROM propietario WHERE estado_prop IN ("MG","SP","R
 
 -- 3.	Relação de todos os dados dos veículos cujo valor do IPVA é 800, em ordem da placa.
 
+
+-- COMENTARIO PARA TESTE;
+
 SELECT * FROM veiculo WHERE vlrIpva_vei = 800 ORDER BY placa_vei;
 
 
